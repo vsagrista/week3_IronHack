@@ -1,33 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap 101 Template</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="CSS/styles.css">
-  </head>
-  <body>
-    <div class="nav search-bar">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-2">Google</div>
-        <div class="col-md-7">Seach bar</div>
-        <div class="col-md-3">Profile settings</div>
-      </div>
-    </div>
-  </div>
-  <div class="nav drive-icons">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-2">Drive</div>
-        <div class="col-md-7">My Drive Icon</div>
-        <div class="col-md-2">More settings</div>
-      </div>
-    </div>
-  </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-  </body>
-</html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Google Drive Clone</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="CSS/styles.css">
+    </head>
+    <body>
+        <div class="nav search-bar">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="google-nav">
+                        <div class="col-md-3">
+                            <img src="http://2.bp.blogspot.com/-tRdfCkaPO0A/Ui-PRJLDZlI/AAAAAAABMI8/8L9maIUroq8/s640/google-new-logo.png" class="logo logo-google">
+                        </div>
+                    </div>
+                    <div class="input-nav">
+                        <div class="col-md-7">
+                            
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search ...">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button">Go!</button>
+                                </span>
+                                </div><!-- /input-group -->
+                                </div><!-- /.col-lg-6 -->
+                            </div>
+                            
+                            <div class="col-md-2">
+                                
+                                <div class="top-right">
+                                    
+                                    <span class="item">Víctor</span>
+                                    <i class="item glyphicon glyphicon-th"></i>
+                                    <i class="item glyphicon glyphicon-bell"></i>
+                                    <img id="item profile-picture" src="images/victor.png">
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav drive-icons">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-2 col-xs-12">
+                            <img class="logo logo-drive" src="https://upload.wikimedia.org/wikipedia/en/d/da/Google_Drive_logo.png">     Drive</div>
+                            
+                            <div class="col-md-7" col-xs-12>
+                                <div class="dropdown">
+                                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    My Drive
+                                    <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                        <li><a href="#">Action</a></li>
+                                        <li><a href="#">Another action</a></li>
+                                        <li><a href="#">Something else here</a></li>
+                                        <li><a href="#">Separated link</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                
+                                <div class="top-right-bottom">
+                                    <i class="item glyphicon glyphicon-list"></i>
+                                    <i class="item glyphicon glyphicon-sort-by-alphabet"></i>
+                                    <i class="item glyphicon glyphicon-info-sign"></i>
+                                    <i class="item glyphicon glyphicon-cog"></i>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav rest-icons">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="left-icons">
+                                <div class="col-md-2">
+                                    <ul class="ul-left-bottom" >
+                                        <li><button type="submit" class="btn btn-primary">New</button></li>
+                                        <li><i class="item glyphicon glyphicon-folder-close"></i>   Share with me</li>
+                                        <li><i class="item glyphicon glyphicon-user"></i>              Google Photos</li>
+                                        <li><i class="item glyphicon glyphicon-grain"></i>   Icon Google Photos</li>
+                                        <li><i class="item glyphicon glyphicon-time"></i>    Recent</li>
+                                        <li><i class="item glyphicon glyphicon-star"></i>    Starred</li>
+                                        <li><i class="item glyphicon glyphicon-trash"></i>    Trash</li>
+                                        <li id="bottom-item"><i class="item glyphicon glyphicon-blackboard"></i>Get Drive for Mac</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="right-icons">  
+                                <div class="col-md-10"></div>
+                                <div class="row">
+                                    <div class="col-md-2"><button type="button" class="btn btn-primary"><i class="item glyphicon glyphicon-folder-open"></i> Folder 1</button></button></div>
+                                    <div class="col-md-2"><button type="button" class="btn btn-primary"><i class="item glyphicon glyphicon-folder-open"></i> Folder 1</button></button></div>
+                                    <div class="col-md-2"><button type="button" class="btn btn-primary"><i class="item glyphicon glyphicon-folder-open"></i> Folder 1</button></button></div>
+                                    <div class="col-md-2"><button type="button" class="btn btn-primary"><i class="item glyphicon glyphicon-folder-open"></i> Folder 1</button></button></div>
+                                    <div class="col-md-1"><button type="button" class="btn btn-primary"><i class="item glyphicon glyphicon-folder-open"></i> Folder 1</button></button></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+                <script src="js/bootstrap.min.js"></script>
+            </body>
+        </html>
