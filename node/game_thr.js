@@ -4,8 +4,10 @@ function fileactions(err, file) {
     if (err) {
         throw err;
     }
+
     var episodes = JSON.parse(file)
     sorted_episodes = sortEpisodes(episodes)
+    var bad_episodes = sorted_episodes.filter(getPoorRatedEdpisodes)
 
     for (i = 0; i < sorted_episodes.length; i++) {
         customPrint(sorted_episodes[i])
@@ -18,9 +20,14 @@ function customPrint(episode) { // prints the name, plot, etc... plus several st
     var stars = Array(Math.round(episode.rating)).join("*")
     console.log("Title: " + episode.title + "\n" + episode.description + "\n" + "Rating: " + episode.rating + " " + stars + "\n" + "Episode Number: " + episode.episode_number)
 }
+
 function sortEpisodes(episodes) {
-	sorted_episodes = episodes.sort(function(a,b){
-		return a.episode_number - b.episode_number}
-		)
-	return sorted_episodes
+    sorted_episodes = episodes.sort(function(a, b) {
+        return a.episode_number - b.episode_number
+    })
+    return sorted_episodes
+}
+
+function getPoorRatedEdpisodes(episode) {
+    return episode.rating < 8.5
 }
