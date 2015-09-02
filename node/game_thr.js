@@ -8,7 +8,9 @@ function fileactions(err, file) {
     var episodes = JSON.parse(file)
     sorted_episodes = sortEpisodes(episodes)
     var bad_episodes = sorted_episodes.filter(getPoorRatedEdpisodes)
-
+    
+    searchForCharacterInDescription(sorted_episodes, "Jon")
+    
     for (i = 0; i < sorted_episodes.length; i++) {
         customPrint(sorted_episodes[i])
     }
@@ -31,3 +33,15 @@ function sortEpisodes(episodes) {
 function getPoorRatedEdpisodes(episode) {
     return episode.rating < 8.5
 }
+
+function searchForCharacterInDescription(episodes,character){
+	for (i=0;i<episodes.length;i++) {
+		if ((episodes[i].description).indexOf(character) > 0){
+			console.log("The character "+character+" is on episode: "+episodes[i].episode_number)
+		}
+	}
+}
+
+
+
+
