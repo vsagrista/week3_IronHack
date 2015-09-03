@@ -48,6 +48,26 @@ Cart.prototype.discount = function() {
     return discount
 }
 
+Cart.prototype.remove_item = function(item,number){
+	var times_deleted = 0
+	console.log(this.array_items)
+	if (number === 0){ // item will be deleted all times it's found if number is 0
+		for (i=0;i<this.array_items.length;i++){ 
+		 	var item_to_delete = this.array_items.indexOf(item) 
+		 	if (item_to_delete != -1) { this.array_items.splice(item_to_delete,1)}
+		 }	
+	}
+	else {  
+		var i = 0
+		while(times_deleted < number || i === this.array_items.length ){ // item will be deleted as many times as the number says
+			times_deleted++		 
+			var item_to_delete = this.array_items.indexOf(item)  	
+			if (item_to_delete != -1) { this.array_items.splice(item_to_delete,1)}  	
+		}
+	}
+	return this.array_items
+}
+
 var Item = function(name, price) {
     this.name = name;
     this.price = price;
@@ -75,7 +95,19 @@ shopping_list.addItem(orange);
 shopping_list.addItem(orange);
 shopping_list.addItem(grapes);
 shopping_list.addItem(banana);
+shopping_list.addItem(banana);
+shopping_list.addItem(banana);
+shopping_list.addItem(banana);
 shopping_list.addItem(watermelon);
 
 
 shopping_list.showCart()
+shopping_list.remove_item(banana,1)
+
+
+
+
+
+
+
+
