@@ -5,11 +5,16 @@ var Question = function() {
     this.answers = [];
     this.question_id = 0;
     this.points = 0;
+    this.bonus_questions = []
+    this.bonus_answers = []
+    this.randomnumber = 0
 }
 
-Question.prototype.addQuestion = function(question, answer) {
+Question.prototype.addQuestion = function(question, answer, bonus_question, bonus_answer) {
     this.questions.push(question);
     this.answers.push(answer);
+    this.bonus_questions.push(bonus_question);
+    this.bonus_answers.push(bonus_answer);
 }
 
 var Quiz = function(questions) {
@@ -26,13 +31,18 @@ Quiz.prototype.askQuestionToUser = function() {
 
 Quiz.prototype.readUserAnswer = function() {
     read(this.options, this.getUserInput.bind(this));
+
 }
 
 Quiz.prototype.getUserInput = function(err, input) {
     if (err) {
         throw err;
     } else {
-        this.answerIsCorrect(input);
+        if (this.questions.question_id === this.questions.questions.length) {
+            this.isBonusQuestionCorrect(input);
+        } else {
+            this.answerIsCorrect(input);
+        }
     }
 }
 
@@ -42,9 +52,10 @@ Quiz.prototype.answerIsCorrect = function(answer) {
         console.log("Correct!");
         this.questions.question_id++;
         if (this.questions.question_id === questions_length) {
-            console.log("You're a rock star, you made it to " + (this.questions.points + 1) + " points!!!");
+            console.log("You're a rock star and answered all questions right!");
+            this.askBonusQuestion();
         } else {
-            this.addPoint()
+            this.addPoint();
             this.askQuestionToUser();
         }
     } else {
@@ -74,12 +85,40 @@ Quiz.prototype.showPoints = function() {
     console.log("You have: " + this.questions.points + " points.");
 }
 
+Quiz.prototype.askBonusQuestion = function() {
+
+    this.questions.randomnumber = Math.floor(Math.random() * 3);
+    console.log("You get a bonus questions, this one counts for five points!");
+    console.log(this.questions.bonus_questions[this.questions.randomnumber]);
+    this.readUserAnswer();
+}
+
+Quiz.prototype.isBonusQuestionCorrect = function(answer) {
+    if (this.questions.bonus_answers[this.questions.randomnumber] === answer) {
+        if (this.questions.questions.length === this.questions.points + 1) {
+            this.questions.points += 5;
+            console.log("************************");
+            console.log("******* MAX SCORE ******");
+            console.log("******* " + (this.questions.points + 1) + " points" + " *******");
+        } else {
+            this.questions.points += 5;
+            console.log("Impressive, you answered the bonus question right!");
+            console.log("Your final score is: " + (this.questions.points + 1) + " points!!!");
+        }
+    } else {
+        console.log("Wrong, you missed 5 bonus points!");
+        console.log("Your final score is: " + (this.questions.points + 1) + " points!!!");
+    }
+}
+
+
+
 
 var new_questions = new Question
 
-new_questions.addQuestion("Capital of Spain?", "Madrid");
-new_questions.addQuestion("Capital of France", "Paris");
-new_questions.addQuestion("Capital of Portugal?", "Lisbon");
+new_questions.addQuestion("Capital of Spain?", "Madrid", "Capital of Macedonia?", "Skopje");
+new_questions.addQuestion("Capital of France", "Paris", "Capital of Albania?", "Tirana");
+new_questions.addQuestion("Capital of Portugal?", "Lisbon", "Capital of Cameroon?", "Yaunde");
 
 var new_quiz = new Quiz(new_questions);
 new_quiz.askQuestionToUser();
