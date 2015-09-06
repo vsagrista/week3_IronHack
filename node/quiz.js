@@ -42,14 +42,36 @@ Quiz.prototype.answerIsCorrect = function(answer) {
         console.log("Correct!");
         this.questions.question_id++;
         if (this.questions.question_id === questions_length) {
-            console.log("You're a rock star, you made it!!");
+            console.log("You're a rock star, you made it to " + (this.questions.points + 1) + " points!!!");
         } else {
+            this.addPoint()
             this.askQuestionToUser();
         }
     } else {
         console.log("Upss! Not the correct answer, please try again!");
+        this.removePoint();
         this.askQuestionToUser();
     }
+}
+
+Quiz.prototype.addPoint = function() {
+    this.questions.points++;
+    console.log("Awesome! You get a point.");
+    this.showPoints();
+
+}
+Quiz.prototype.removePoint = function() {
+    this.questions.points--;
+    if (this.questions.points < 0) {
+        this.questions.points = 0;
+        console.log("You still have 0 points, come on!!")
+    } else {
+        console.log("Bummer! You lost a point.")
+        this.showPoints();
+    }
+}
+Quiz.prototype.showPoints = function() {
+    console.log("You have: " + this.questions.points + " points.");
 }
 
 
