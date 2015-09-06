@@ -1,3 +1,6 @@
+
+/**************************************************  CLASSES   **************************************************/
+
 var read = require("read")
 
 var Question = function() {
@@ -5,10 +8,27 @@ var Question = function() {
     this.answers = [];
     this.question_id = 0;
     this.points = 0;
-    this.bonus_questions = []
-    this.bonus_answers = []
-    this.randomnumber = 0
+    this.bonus_questions = [];
+    this.bonus_answers = [];
+    this.randomnumber = 0;
 }
+
+var User = function() {
+    this.active_users = ["John", "Billie", "Bob"];
+    this.user_initialized = false;
+    this.user_new = ""
+    this.current_user = "";
+}
+
+var Quiz = function(users, questions) {
+    this.users = users;
+    this.questions = questions;
+    this.options = {
+        prompt: ">"
+    }
+}
+
+/*********************************************** QUESTION PROTOTYPES ***********************************************/
 
 Question.prototype.addQuestion = function(question, answer, bonus_question, bonus_answer) {
     this.questions.push(question);
@@ -17,12 +37,37 @@ Question.prototype.addQuestion = function(question, answer, bonus_question, bonu
     this.bonus_answers.push(bonus_answer);
 }
 
-var Quiz = function(questions) {
-    this.questions = questions
-    this.options = {
-        prompt: ">"
-    }
+/***********************************************   QUIZ PROTOTYPES   ***********************************************/
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * *   USER INFO  * * * * * * * * * * * * * * * * * * * * * * * * * */ 
+
+Quiz.prototype.askUserId = function(){
+	console.log("User new? (Yes / No)");
+	this.readUserAnswer();
 }
+
+Quiz.prototype.userIsNew = function(user){
+	this.users.active_users.push(user);
+	this.users.current_user = user;
+	console.log("Enjoy our game "+user+"!!")
+	this.users.user_initialized = true;
+	this.askQuestionToUser();
+}
+
+Quiz.prototype.userExists = function(user){ 
+	for (i=0;i<this.users.active_users.length;i++){
+		if (this.users.active_users[i] === user){
+			this.users.current_user = user;
+			console.log("Welcome back "+user+"!!")
+			this.users.user_initialized = true;
+			this.askQuestionToUser();
+		}
+	}
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * *   USER CHOICES  * * * * * * * * * * * * * * * * * * * * * * * * * */ 
+
 
 Quiz.prototype.askQuestionToUser = function() {
     console.log(this.questions.questions[this.questions.question_id])
@@ -35,15 +80,37 @@ Quiz.prototype.readUserAnswer = function() {
 }
 
 Quiz.prototype.getUserInput = function(err, input) {
-    if (err) {
-        throw err;
-    } else {
-        if (this.questions.question_id === this.questions.questions.length) {
-            this.isBonusQuestionCorrect(input);
-        } else {
-            this.answerIsCorrect(input);
-        }
-    }
+	if(this.users.user_initialized === true){
+	    if (err) {
+	        throw err;
+	    } else {
+	        if (this.questions.question_id === this.questions.questions.length) {
+	            this.isBonusQuestionCorrect(input);
+	        } else {
+	            this.answerIsCorrect(input);
+	        }
+	    }
+	}
+	else if (this.users.user_new === "Yes"){
+		this.userIsNew(input);
+	}
+	else if	(this.users.user_new === "No"){
+		this.userExists(input);
+	}
+	else {
+		if (input === "Yes"){ this.users.user_new = "Yes";
+			console.log("Great, now type your name so we can add you in our system!")
+			this.readUserAnswer()
+		 }
+		else if ( input === "No") {this.users.user_new = "No";
+			console.log("Ok, then type your name so we can find you in our data base.")
+			this.readUserAnswer()
+		}
+		else {
+			console.log("Upps, I didn't get that. Try yes if you are a new user or no for an existing one");
+			this.askUserId();
+		}
+	}
 }
 
 Quiz.prototype.answerIsCorrect = function(answer) {
@@ -65,6 +132,10 @@ Quiz.prototype.answerIsCorrect = function(answer) {
     }
 }
 
+/* * * * * * * * * * * * * * * * * * * * * * * * * *   USER POINTS  * * * * * * * * * * * * * * * * * * * * * * * * * */ 
+
+
+
 Quiz.prototype.addPoint = function() {
     this.questions.points++;
     console.log("Awesome! You get a point.");
@@ -81,6 +152,7 @@ Quiz.prototype.removePoint = function() {
         this.showPoints();
     }
 }
+
 Quiz.prototype.showPoints = function() {
     console.log("You have: " + this.questions.points + " points.");
 }
@@ -100,18 +172,21 @@ Quiz.prototype.isBonusQuestionCorrect = function(answer) {
             console.log("************************");
             console.log("******* MAX SCORE ******");
             console.log("******* " + (this.questions.points + 1) + " points" + " *******");
+            console.log("------ Super "+ this.users.current_user + "------");
         } else {
             this.questions.points += 5;
             console.log("Impressive, you answered the bonus question right!");
-            console.log("Your final score is: " + (this.questions.points + 1) + " points!!!");
+            console.log(this.users.current_user+":\n"+"Your final score is: " + (this.questions.points + 1) + " points!!!");
         }
     } else {
         console.log("Wrong, you missed 5 bonus points!");
-        console.log("Your final score is: " + (this.questions.points + 1) + " points!!!");
+        console.log(this.users.current_user+":\n"+"Your final score is: " + (this.questions.points + 1) + " points!!!");
     }
 }
 
 
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * *   GAME STARTS HERE  * * * * * * * * * * * * * * * * * * * * * * * * * */ 
 
 
 var new_questions = new Question
@@ -120,5 +195,9 @@ new_questions.addQuestion("Capital of Spain?", "Madrid", "Capital of Macedonia?"
 new_questions.addQuestion("Capital of France", "Paris", "Capital of Albania?", "Tirana");
 new_questions.addQuestion("Capital of Portugal?", "Lisbon", "Capital of Cameroon?", "Yaunde");
 
-var new_quiz = new Quiz(new_questions);
-new_quiz.askQuestionToUser();
+var existing_users = new User
+var new_quiz = new Quiz(existing_users,new_questions);
+
+
+
+new_quiz.askUserId()
