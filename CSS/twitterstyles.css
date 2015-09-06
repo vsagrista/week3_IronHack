@@ -51,8 +51,26 @@ body {
 	color: #009999;
 	font-size:18px;
 }
+.tweets-area {
+	margin-top: 40px;
+	background-color: #f5f8fa!important;
+}
+.about-info {
+	width: 290px;
+}
+.tweet-button { 
+	width: 100%;
+}
 
-
+.tweets p {
+	width: 170px;
+	display: inline-block;
+	font-size: 18px;
+	color: #009999;
+}
+.tweets p:nth-child(1){
+	width:100px;
+}
 
 
 
